@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.netbeans.rest.application.config;
+package dk.laj.application.config;
 
 import java.util.Set;
 import javax.ws.rs.core.Application;
@@ -12,7 +12,7 @@ import javax.ws.rs.core.Application;
  *
  * @author IEUser
  */
-@javax.ws.rs.ApplicationPath("webresources")
+@javax.ws.rs.ApplicationPath("rest")
 public class ApplicationConfig extends Application {
 
     @Override
