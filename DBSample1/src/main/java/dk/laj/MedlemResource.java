@@ -6,12 +6,22 @@
 package dk.laj;
 
 import java.util.List;
+import javax.annotation.ManagedBean;
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -20,25 +30,54 @@ import javax.ws.rs.Path;
 @Stateless
 @Path("medlem")
 public class MedlemResource {
+   @Resource
+  SessionContext sessionContext;
+    
     @PersistenceContext(name = "sample")
     EntityManager em;
+    
+
     @GET
-    @Path("init")
-    public String init(){
-        Medlem m1 = new Medlem();
-        m1.setName("Ronni");
-        em.merge(m1);
+    @Path("ping")
+    @PermitAll
+    public Response ping(){
+        return Response.ok("ok").build();
+}
+    
+    @GET
+    @Path("create")
+    @RolesAllowed({"admin"})
+    public Response createUser(@QueryParam("name") String name,@QueryParam("password") String password,@QueryParam("group") String group){
         
-        Medlem m2 = new Medlem();
-        m2.setName("Mads");
-        em.merge(m2);   
+        System.out.println("create user");
+        Medlem m = new Medlem();
+        m.setName(name);
+        m.setPassword(password);
+        em.merge(m);
         
-        return "init complet";
+        Gruppe g = new Gruppe();
+        g.setGruppe(group);
+        g.setNavn(name);
+        em.merge(g);
+        return Response.ok(m).build();
     }
+   
+
+    
+
     @GET
-    @Path("/")
+    @Path("list")
+    @RolesAllowed({"user","admin"})
     public List<Medlem> getMembers(){
+        
         Query q = em.createNamedQuery("Medlem.all");
         return q.getResultList();
     }
+    
+    @PostConstruct
+    public void init(){
+       
+    }
+    
+    
 }

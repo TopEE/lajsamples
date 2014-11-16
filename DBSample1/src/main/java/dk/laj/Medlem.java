@@ -6,6 +6,10 @@
 package dk.laj;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +22,7 @@ import javax.persistence.NamedQuery;
  * @author IEUser
  */
 @Entity
-@NamedQueries({@NamedQuery(name="Medlem.all",query = "SELECT e FROM Medlem e")})
+@NamedQueries({@NamedQuery(name="Medlem.all",query = "SELECT e FROM Medlem e"),@NamedQuery(name="Medlem.count",query = "SELECT COUNT(E.id) FROM Medlem e")})
 public class Medlem implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -26,6 +30,7 @@ public class Medlem implements Serializable {
     private Long id;
     
     private String name;
+    private String password;
 
     public Long getId() {
         return id;
@@ -45,29 +50,25 @@ public class Medlem implements Serializable {
         this.id = id;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+    
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Medlem)) {
-            return false;
-        }
-        Medlem other = (Medlem) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
+    public void setPassword(String password) {
+        try {
+           MessageDigest md = MessageDigest.getInstance("SHA-256");
+         
+           md.update(password.getBytes("UTF-8")); // Change this to "UTF-16" if needed
+           byte[] digest = md.digest();
+           BigInteger bigInt = new BigInteger(1, digest);
+           String output = bigInt.toString(16);
 
-    @Override
-    public String toString() {
-        return "dk.laj.Medlem[ id=" + id + " ]";
+         this.password=output;
+
+       } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+        ex.printStackTrace();
+
+       }
     }
+    
+    
     
 }
