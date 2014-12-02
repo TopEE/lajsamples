@@ -5,22 +5,26 @@
  */
 package dk.laj.server;
 
-import java.util.Date;
+import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author IEUser
  */
-
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Author {
     private String name;
-    private Date birthdate;
+    private String birthdate;
 
-    public Author(String name, Date birthdate) {
+    public Author() {
+    }
+    
+    
+
+    public Author(String name, String bd) {
         this.name = name;
-        this.birthdate = birthdate;
+        this.birthdate = bd;
     }
 
     public String getName() {
@@ -31,13 +35,4 @@ public class Author {
         this.name = name;
     }
 
-    public Date getBirthdate() {
-        return birthdate;
-    }
-
-    public void setBirthdate(Date birthdate) {
-        this.birthdate = birthdate;
-    }
-    
-    
 }
