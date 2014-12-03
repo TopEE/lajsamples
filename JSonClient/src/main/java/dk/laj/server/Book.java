@@ -23,21 +23,15 @@ public class Book {
     public String tittle;
     
     //Author author;
-    int year;
-    int id;
+    public int year;
+    public long id;
     
-    Author author;
+    public Author author;
 
     public Book() {
     }
 
-    public Author getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
-    }
+    
     
     
 

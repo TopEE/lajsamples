@@ -14,8 +14,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Author {
-    private String name;
-    private String birthdate;
+    public String name;
+    public String birthdate;
 
     public Author() {
     }
@@ -27,12 +27,6 @@ public class Author {
         this.birthdate = bd;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    
 
 }

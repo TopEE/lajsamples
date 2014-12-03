@@ -21,7 +21,7 @@ import javax.ws.rs.core.Application;
 
 public class ApplicationConfig extends Application {
 
-      @Override
+    /**  @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new java.util.HashSet<>();
         resources.add(com.wordnik.swagger.jaxrs.listing.ApiListingResource.class);
@@ -34,7 +34,7 @@ public class ApplicationConfig extends Application {
     
         private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(dk.laj.server.BookResource.class);
-    }
+    }*/
     
 
     
